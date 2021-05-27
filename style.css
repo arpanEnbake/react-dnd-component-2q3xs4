@@ -16,8 +16,6 @@ h1, p {
         position: absolute;
         top: 0;
         right: 0;
-        opacity: 0;
-        background: #b5d1de;
         padding: 5px;
         color: #666;
     }

@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom';
 import './style.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PharseData from './coreComponents';
-import TextBox from './TextBox';
-import TextBoxProps from './TextBoxProps';
 import {
   Checkbox,
   Card,
+  Collapse,
   Row,
   Col,
   Radio,
@@ -17,24 +16,6 @@ import {
   Input
 } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-
-const Radio = () => {
-  return (
-    <React.Fragment>
-      <label className="col-lg-2 col-md-3 control-label ">Label</label>{' '}
-      <input type="radio" value="" />
-    </React.Fragment>
-  );
-};
-
-const Checkbox = () => {
-  return (
-    <React.Fragment>
-      <label className="col-lg-2 col-md-3 control-label ">Label</label>{' '}
-      <input type="checkbox" value="" />
-    </React.Fragment>
-  );
-};
 
 const CheckboxGroup = ({ id }) => {
   return (
@@ -241,16 +222,14 @@ const App = () => {
   const setContType = (id, type) => {
     console.log(id, type);
     switch (type) {
-      case 'textbox':
-        return <TextBox compID={id} labelName={state.labelName[id]} />;
-      case 'radio':
-        return <Radio />;
-      case 'check':
-        return <Checkbox />;
       case 'multiSelect':
         return <CheckboxGroup id={id} />;
       default:
-        return <TextBox />;
+        return (
+          <Form.Item label="Question" id={id} name={id}>
+            <Input />
+          </Form.Item>
+        );
     }
   };
 
@@ -277,41 +256,7 @@ const App = () => {
     }
   };
 
-  const handleDoubleClickItem = (id, type, e) => {
-    debugger;
-    var showProp = state.showPropContainer.map((val, index) => {
-      return (val = false);
-    });
-    let showPropContainer = showProp.slice();
-    showPropContainer[id] = true;
-    var labelName = state.labelName;
-    labelName[id] = labelName[id] ? labelName[id] : 'Label';
-    setState({
-      ...state,
-      curID: id,
-      curType: type,
-      showPropContainer,
-      labelName
-    });
-  };
-
-  const setPropCont = (id, type) => {
-    switch (type) {
-      case 'textbox':
-        return (
-          <TextBoxProps
-            handleInputChange={handleInputChange}
-            labelValue={state.labelName[state.curID]}
-          />
-        );
-      case 'radio':
-        return <Radio />;
-      case 'check':
-        return <Checkbox />;
-      default:
-        return <TextBox />;
-    }
-  };
+  const handleDoubleClickItem = (id, type, e) => {};
 
   const handleInputChange = e => {
     debugger;
@@ -386,39 +331,44 @@ const App = () => {
                             item.type
                           )}
                         >
-                          <p style={{ margin: 0 }}>{item.id}</p>
-                          <div className="field-actions">
-                            <a
-                              type="remove"
-                              className="toggle-formActions"
-                              title="Remove"
-                              onClick={toggleAction.bind(
-                                this,
-                                'remove',
-                                item.id
-                              )}
+                          <Collapse
+                            collapsible="header"
+                            defaultActiveKey={['1']}
+                          >
+                            <Card
+                              label={item.id}
+                              extra={
+                                <div className="field-actions">
+                                  <a
+                                    type="remove"
+                                    className="toggle-formActions"
+                                    title="Remove"
+                                    onClick={toggleAction.bind(
+                                      this,
+                                      'remove',
+                                      item.id
+                                    )}
+                                  >
+                                    <i className="fa fa-window-close" />
+                                  </a>
+                                  <a
+                                    type="copy"
+                                    className="toggle-formActions"
+                                    title="Copy"
+                                    onClick={toggleAction.bind(
+                                      this,
+                                      'copy',
+                                      item.id
+                                    )}
+                                  >
+                                    <i className="fa fa-clone" />
+                                  </a>
+                                </div>
+                              }
                             >
-                              <i className="fa fa-window-close" />
-                            </a>
-                            <a
-                              type="edit"
-                              className="toggle-formActions"
-                              title="Edit"
-                              onClick={toggleAction.bind(this, 'edit', item.id)}
-                            >
-                              <i className="fa fa-edit" />
-                            </a>
-                            <a
-                              type="copy"
-                              className="toggle-formActions"
-                              title="Copy"
-                              onClick={toggleAction.bind(this, 'copy', item.id)}
-                            >
-                              <i className="fa fa-clone" />
-                            </a>
-                          </div>
-                          <Button label="aaaaa"> asdfas</Button>
-                          {setContType(item.id, item.type)}
+                              {setContType(item.id, item.type)}
+                            </Card>
+                          </Collapse>
                         </div>
                       )}
                     </Draggable>
@@ -434,14 +384,6 @@ const App = () => {
             )}
           </Droppable>
         </DragDropContext>
-
-        {state.showPropContainer[state.curID] && (
-          <div style={{ background: '#e6e6e6', width: '250px' }}>
-            <p>{state.curID}</p>
-            {setPropCont(state.curID, state.curType)}
-            {}
-          </div>
-        )}
       </React.Fragment>
     </Form>
   );

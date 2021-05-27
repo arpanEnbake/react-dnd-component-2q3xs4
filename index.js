@@ -269,120 +269,130 @@ const App = () => {
     <Form form={form}>
       <React.Fragment>
         <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-          <Droppable
-            droppableId="components"
-            isDropDisabled={state.homeIndex === 'canvas'}
-          >
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
+          <Row>
+            <Col>
+              <Droppable
+                droppableId="components"
+                isDropDisabled={state.homeIndex === 'canvas'}
               >
-                {state.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {state.items.map((item, index) => (
+                      <Draggable
+                        key={item.id}
+                        draggableId={item.id}
+                        index={index}
                       >
-                        <i className={item.icon} />
-                        <span data-type={item.type} className="pan-text">
-                          {item.label}
-                        </span>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="canvas">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyleDragPart(snapshot.isDraggingOver)}
-              >
-                {state.selected.length > 0 ? (
-                  state.selected.map((item, index) => (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          className="dragElement"
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                          onDoubleClick={handleDoubleClickItem.bind(
-                            this,
-                            item.id,
-                            item.type
-                          )}
-                        >
-                          <Collapse
-                            collapsible="header"
-                            defaultActiveKey={['1']}
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style
+                            )}
                           >
-                            <Card
-                              label={item.id}
-                              extra={
-                                <div className="field-actions">
-                                  <a
-                                    type="remove"
-                                    className="toggle-formActions"
-                                    title="Remove"
-                                    onClick={toggleAction.bind(
-                                      this,
-                                      'remove',
-                                      item.id
-                                    )}
-                                  >
-                                    <i className="fa fa-window-close" />
-                                  </a>
-                                  <a
-                                    type="copy"
-                                    className="toggle-formActions"
-                                    title="Copy"
-                                    onClick={toggleAction.bind(
-                                      this,
-                                      'copy',
-                                      item.id
-                                    )}
-                                  >
-                                    <i className="fa fa-clone" />
-                                  </a>
-                                </div>
-                              }
-                            >
-                              {setContType(item.id, item.type)}
-                            </Card>
-                          </Collapse>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))
-                ) : (
-                  <h1 style={{ color: '#999', textAlign: 'center' }}>
-                    {' '}
-                    Drage Item Here{' '}
-                  </h1>
+                            <i className={item.icon} />
+                            <span data-type={item.type} className="pan-text">
+                              {item.label}
+                            </span>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
                 )}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+              </Droppable>
+            </Col>
+            <Col>
+              <Droppable droppableId="canvas">
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyleDragPart(snapshot.isDraggingOver)}
+                  >
+                    {state.selected.length > 0 ? (
+                      state.selected.map((item, index) => (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              className="dragElement"
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
+                              onDoubleClick={handleDoubleClickItem.bind(
+                                this,
+                                item.id,
+                                item.type
+                              )}
+                            >
+                              <Collapse
+                                collapsible="header"
+                                defaultActiveKey={['1']}
+                              >
+                                <Card
+                                  label={item.id}
+                                  extra={
+                                    <div className="field-actions">
+                                      <a
+                                        type="remove"
+                                        className="toggle-formActions"
+                                        title="Remove"
+                                        onClick={toggleAction.bind(
+                                          this,
+                                          'remove',
+                                          item.id
+                                        )}
+                                      >
+                                        <i className="fa fa-window-close" />
+                                      </a>
+                                      <a
+                                        type="copy"
+                                        className="toggle-formActions"
+                                        title="Copy"
+                                        onClick={toggleAction.bind(
+                                          this,
+                                          'copy',
+                                          item.id
+                                        )}
+                                      >
+                                        <i className="fa fa-clone" />
+                                      </a>
+                                    </div>
+                                  }
+                                >
+                                  {setContType(item.id, item.type)}
+                                </Card>
+                              </Collapse>
+                            </div>
+                          )}
+                        </Draggable>
+                      ))
+                    ) : (
+                      <h1 style={{ color: '#999', textAlign: 'center' }}>
+                        {' '}
+                        Drage Item Here{' '}
+                      </h1>
+                    )}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Col>
+          </Row>
         </DragDropContext>
       </React.Fragment>
     </Form>

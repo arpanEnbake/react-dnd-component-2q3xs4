@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import Hello from './Hello';
 import './style.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PharseData from './coreComponents';
 import TextBox from './TextBox';
 import TextBoxProps from './TextBoxProps';
-import { Checkbox, Row, Col, Radio, Button, Form, Space, Input } from 'antd';
+import {
+  Checkbox,
+  Card,
+  Row,
+  Col,
+  Radio,
+  Button,
+  Form,
+  Space,
+  Input
+} from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 const Radio = () => {
@@ -313,7 +322,6 @@ const App = () => {
 
   return (
     <Form form={form}>
-    
       <React.Fragment>
         <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
           <Droppable
